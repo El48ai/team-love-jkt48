@@ -29,7 +29,7 @@
 
     .page {
       min-height: 100vh;
-      padding: 28px 16px 60px;
+      padding: 24px 16px 50px;
       text-align: center;
       position: relative;
       overflow: hidden;
@@ -95,9 +95,10 @@
 
     h1 {
       margin: 0 0 16px;
-      font-size: clamp(34px, 9vw, 52px);
+      font-size: clamp(31px, 8.5vw, 45px);
       font-weight: 900;
       letter-spacing: 1px;
+      line-height: 1.12;
       text-shadow:
         0 0 12px rgba(255,255,255,.55),
         0 0 28px var(--glow);
@@ -144,7 +145,7 @@
     }
 
     .photo-area {
-      min-height: 315px;
+      min-height: 255px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -152,20 +153,12 @@
     }
 
     .empty-text {
-      font-size: 22px;
-      line-height: 1.35;
-      color: rgba(255,255,255,.92);
-      text-shadow: 0 0 14px rgba(0,0,0,.8);
-      padding: 35px 10px;
-    }
-
-    .empty-text.hide {
       display: none;
     }
 
     .member-card {
-      width: 252px;
-      height: 252px;
+      width: 190px;
+      height: 190px;
       border-radius: 50%;
       display: none;
       align-items: center;
@@ -173,9 +166,9 @@
       position: relative;
       background: rgba(255,255,255,.15);
       box-shadow:
-        0 0 0 5px rgba(255,255,255,.92),
-        0 0 0 13px rgba(255,255,255,.22),
-        0 0 65px var(--glow);
+        0 0 0 4px rgba(255,255,255,.92),
+        0 0 0 9px rgba(255,255,255,.22),
+        0 0 42px var(--glow);
       animation: popPhoto .7s ease forwards, pulsePhoto 2s infinite ease-in-out .8s;
     }
 
@@ -208,7 +201,7 @@
     .member-card::before {
       content: "";
       position: absolute;
-      inset: -36px;
+      inset: -20px;
       border-radius: 50%;
       border: 2px solid rgba(255,255,255,.28);
       animation: spin 8s linear infinite;
@@ -217,7 +210,7 @@
     .member-card::after {
       content: "";
       position: absolute;
-      inset: -68px;
+      inset: -36px;
       border-radius: 50%;
       border: 1px solid rgba(255,255,255,.18);
       animation: spin 14s linear infinite reverse;
@@ -230,8 +223,8 @@
     }
 
     .member-photo {
-      width: 212px;
-      height: 212px;
+      width: 155px;
+      height: 155px;
       border-radius: 50%;
       object-fit: cover;
       object-position: top center;
@@ -242,8 +235,8 @@
     }
 
     .team-name {
-      margin-top: 22px;
-      font-size: 28px;
+      margin-top: 14px;
+      font-size: 25px;
       font-weight: 900;
       text-shadow: 0 0 18px rgba(0,0,0,.85);
     }
@@ -251,14 +244,14 @@
     .counter {
       margin-top: 6px;
       color: rgba(255,255,255,.86);
-      font-size: 15px;
+      font-size: 14px;
       font-weight: bold;
     }
 
     .quote {
-      margin: 24px auto 24px;
+      margin: 22px auto 22px;
       max-width: 420px;
-      font-size: clamp(21px, 5.5vw, 28px);
+      font-size: clamp(20px, 5vw, 25px);
       line-height: 1.35;
       text-shadow: 0 0 14px rgba(0,0,0,.9);
     }
@@ -266,10 +259,10 @@
     .main-btn {
       border: none;
       border-radius: 999px;
-      padding: 18px 30px;
-      min-width: 260px;
+      padding: 16px 28px;
+      min-width: 240px;
       color: white;
-      font-size: 21px;
+      font-size: 20px;
       font-weight: 900;
       background: linear-gradient(135deg, var(--main1), var(--main2));
       box-shadow:
@@ -396,6 +389,39 @@
       opacity: 1;
       transform: translateX(-50%) translateY(0);
     }
+
+    @media (max-width: 380px) {
+      h1 {
+        font-size: 29px;
+      }
+
+      .tab {
+        font-size: 12px;
+        padding: 9px 4px;
+      }
+
+      .member-card {
+        width: 175px;
+        height: 175px;
+      }
+
+      .member-photo {
+        width: 142px;
+        height: 142px;
+      }
+
+      .member-card::before {
+        inset: -18px;
+      }
+
+      .member-card::after {
+        inset: -32px;
+      }
+
+      .photo-area {
+        min-height: 235px;
+      }
+    }
   </style>
 </head>
 
@@ -424,18 +450,15 @@
       </div>
 
       <div class="photo-area">
-        <div class="empty-text" id="emptyText">
-          Pilih team lalu tekan tombol lightstick.<br>
-          Foto member akan muncul sesuai team.
-        </div>
+        <div class="empty-text" id="emptyText"></div>
 
-        <div class="member-card" id="memberCard">
+        <div class="member-card show" id="memberCard">
           <img id="memberPhoto" class="member-photo" src="love1.jpg" alt="Foto Team">
         </div>
       </div>
 
       <div class="team-name" id="teamName">Team Love 💖</div>
-      <div class="counter" id="counter">Foto belum dinyalakan</div>
+      <div class="counter" id="counter">Foto 1 dari 15</div>
 
       <p class="quote" id="quote">
         Saat oshi tersenyum, dunia terasa lebih terang.
@@ -548,9 +571,9 @@
     let currentTeam = "love";
 
     const photoIndex = {
-      love: 0,
-      dream: 0,
-      passion: 0
+      love: 1,
+      dream: 1,
+      passion: 1
     };
 
     const title = document.getElementById("title");
@@ -579,9 +602,12 @@
 
       youtubeFrame.src = "https://www.youtube.com/embed/" + team.youtube;
 
-      memberCard.classList.remove("show");
-      emptyText.classList.remove("hide");
-      counter.innerText = "Foto belum dinyalakan";
+      memberPhoto.src = team.photos[0];
+      memberCard.classList.add("show");
+      emptyText.classList.add("hide");
+
+      photoIndex[teamKey] = 1;
+      counter.innerText = "Foto 1 dari " + team.photos.length;
 
       document.querySelectorAll(".tab").forEach((btn) => {
         btn.classList.remove("active");
@@ -596,8 +622,6 @@
       const photo = team.photos[index];
 
       memberPhoto.src = photo;
-
-      emptyText.classList.add("hide");
 
       memberCard.classList.remove("show");
       void memberCard.offsetWidth;
