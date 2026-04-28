@@ -15,7 +15,7 @@
       --main1: #ff7eb6;
       --main2: #ff2d55;
       --main3: #ffd1e6;
-      --glow: rgba(255, 79, 163, 0.7);
+      --glow: rgba(255, 79, 163, 0.72);
     }
 
     body {
@@ -29,14 +29,14 @@
 
     .page {
       min-height: 100vh;
-      padding: 30px 16px 55px;
+      padding: 28px 16px 60px;
       text-align: center;
       position: relative;
       overflow: hidden;
       background:
         radial-gradient(circle at center, var(--main1), transparent 18%),
-        radial-gradient(circle at top, var(--main2), transparent 45%),
-        linear-gradient(180deg, #22001d, #55003d, #140014);
+        radial-gradient(circle at top, var(--main2), transparent 44%),
+        linear-gradient(180deg, #21001f, #520040, #140014);
       transition: 0.6s ease;
     }
 
@@ -48,14 +48,19 @@
         radial-gradient(circle, rgba(255,255,255,.9) 1px, transparent 2px),
         radial-gradient(circle, var(--main3) 2px, transparent 4px);
       background-size: 42px 42px, 90px 90px;
-      opacity: .65;
+      opacity: .68;
       animation: bgMove 10s linear infinite;
       pointer-events: none;
     }
 
     @keyframes bgMove {
-      from { transform: translateY(0); }
-      to { transform: translateY(-90px); }
+      from {
+        transform: translateY(0);
+      }
+
+      to {
+        transform: translateY(-90px);
+      }
     }
 
     .light-lines {
@@ -75,7 +80,9 @@
     }
 
     @keyframes rotateLines {
-      to { transform: rotate(360deg); }
+      to {
+        transform: rotate(360deg);
+      }
     }
 
     .content {
@@ -87,11 +94,13 @@
     }
 
     h1 {
-      margin: 0 0 18px;
+      margin: 0 0 16px;
       font-size: clamp(34px, 9vw, 52px);
       font-weight: 900;
       letter-spacing: 1px;
-      text-shadow: 0 0 18px rgba(255,255,255,.6);
+      text-shadow:
+        0 0 12px rgba(255,255,255,.55),
+        0 0 28px var(--glow);
     }
 
     .tabs {
@@ -155,8 +164,8 @@
     }
 
     .member-card {
-      width: 250px;
-      height: 250px;
+      width: 252px;
+      height: 252px;
       border-radius: 50%;
       display: none;
       align-items: center;
@@ -179,6 +188,7 @@
         transform: scale(.25) rotate(-12deg);
         opacity: 0;
       }
+
       to {
         transform: scale(1) rotate(0deg);
         opacity: 1;
@@ -186,8 +196,13 @@
     }
 
     @keyframes pulsePhoto {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.04); }
+      0%, 100% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.04);
+      }
     }
 
     .member-card::before {
@@ -209,12 +224,14 @@
     }
 
     @keyframes spin {
-      to { transform: rotate(360deg); }
+      to {
+        transform: rotate(360deg);
+      }
     }
 
     .member-photo {
-      width: 210px;
-      height: 210px;
+      width: 212px;
+      height: 212px;
       border-radius: 50%;
       object-fit: cover;
       object-position: top center;
@@ -233,7 +250,7 @@
 
     .counter {
       margin-top: 6px;
-      color: rgba(255,255,255,.85);
+      color: rgba(255,255,255,.86);
       font-size: 15px;
       font-weight: bold;
     }
@@ -281,6 +298,7 @@
         opacity: 1;
         transform: translateY(0) scale(.6) rotate(0deg);
       }
+
       100% {
         opacity: 0;
         transform: translateY(-310px) scale(1.8) rotate(28deg);
@@ -296,9 +314,11 @@
         opacity: 0;
         transform: translateY(0) translateX(0) scale(.4) rotate(0deg);
       }
+
       15% {
         opacity: 1;
       }
+
       100% {
         opacity: 0;
         transform: translateY(-260px) translateX(90px) scale(1.7) rotate(220deg);
@@ -314,10 +334,12 @@
         opacity: 1;
         transform: translateY(0) scale(.5) rotate(0deg);
       }
+
       45% {
         opacity: 1;
         transform: translateY(-120px) scale(1.3) rotate(-12deg);
       }
+
       100% {
         opacity: 0;
         transform: translateY(-280px) scale(.4) rotate(30deg);
@@ -338,9 +360,17 @@
     }
 
     @keyframes flashEffect {
-      0% { opacity: 0; }
-      40% { opacity: 1; }
-      100% { opacity: 0; }
+      0% {
+        opacity: 0;
+      }
+
+      40% {
+        opacity: 1;
+      }
+
+      100% {
+        opacity: 0;
+      }
     }
 
     .toast {
@@ -430,7 +460,7 @@
         color1: "#ff7eb6",
         color2: "#ff2d55",
         color3: "#ffd1e6",
-        glow: "rgba(255, 79, 163, 0.7)",
+        glow: "rgba(255, 79, 163, 0.72)",
         quote: "Saat oshi tersenyum, dunia terasa lebih terang.",
         buttonText: "Team Love menyala 💖",
         animationType: "love",
@@ -466,21 +496,20 @@
         buttonText: "Team Dream menyala 🌟",
         animationType: "dream",
         photos: [
-          "Dream1.jpg",
-          "Dream2.jpg",
-          "Dream3.jpg",
-          "Dream4.jpg",
-          "Dream5.jpg",
-          "Dream6.jpg",
-          "Dream7.jpg",
-          "Dream8.jpg",
-          "Dream9.jpg",
-          "Dream10.jpg",
-          "Dream11.jpg",
-          "Dream12.jpg",
-          "Dream13.jpg",
-          "Dream14.jpg",
-          "Dream15.jpg"
+          "dream1.jpg",
+          "dream2.jpg",
+          "dream3.jpg",
+          "dream4.jpg",
+          "dream5.jpg",
+          "dream6.jpg",
+          "dream7.jpg",
+          "dream8.jpg",
+          "dream9.jpg",
+          "dream10.jpg",
+          "dream11.jpg",
+          "dream12.jpg",
+          "dream13.jpg",
+          "dream14.jpg"
         ]
       },
 
@@ -547,6 +576,7 @@
       title.innerText = team.title;
       teamName.innerText = team.name + " " + team.emoji;
       quote.innerText = team.quote;
+
       youtubeFrame.src = "https://www.youtube.com/embed/" + team.youtube;
 
       memberCard.classList.remove("show");
@@ -576,6 +606,7 @@
       counter.innerText = "Foto " + (index + 1) + " dari " + team.photos.length;
 
       photoIndex[currentTeam]++;
+
       if (photoIndex[currentTeam] >= team.photos.length) {
         photoIndex[currentTeam] = 0;
       }
