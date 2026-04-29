@@ -313,7 +313,6 @@
       border: none;
     }
 
-    /* BAGIAN INI SUDAH DITURUNKAN */
     .photo-area {
       display: flex;
       align-items: center;
@@ -570,9 +569,30 @@
       transform: translateX(-50%) translateY(0);
     }
 
+    /* CATATAN FANMADE */
+    .fanmade-note {
+      position: fixed;
+      left: 50%;
+      bottom: 5px;
+      transform: translateX(-50%);
+      z-index: 200;
+      width: 100%;
+      padding: 0 12px;
+      font-size: 9px;
+      font-weight: 600;
+      color: rgba(255,255,255,.65);
+      text-align: center;
+      text-shadow: 0 0 8px rgba(0,0,0,.8);
+      pointer-events: none;
+    }
+
     @supports (padding-bottom: env(safe-area-inset-bottom)) {
       .page {
         padding-bottom: calc(10px + env(safe-area-inset-bottom));
+      }
+
+      .fanmade-note {
+        bottom: calc(5px + env(safe-area-inset-bottom));
       }
     }
   </style>
@@ -645,6 +665,10 @@
 
   <div class="flash" id="flash"></div>
   <div class="toast" id="toast"></div>
+
+  <div class="fanmade-note">
+    Fanmade website • Bukan situs resmi JKT48
+  </div>
 
   <script>
     const teams = {
