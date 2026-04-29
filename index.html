@@ -2,52 +2,53 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
   <title>JKT48 Team Lightstick</title>
-
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
       --main1: #ff7eb6;
       --main2: #ff2d55;
       --main3: #ffd1e6;
-      --glow: rgba(255, 79, 163, 0.72);
+      --glow:  rgba(255,79,163,0.72);
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden; /* satu layar penuh */
     }
 
     body {
-      margin: 0;
-      min-height: 100vh;
       font-family: Arial, sans-serif;
       color: white;
       background: #120014;
-      overflow-x: hidden;
     }
 
+    /* ── FULL PAGE ── */
     .page {
-      min-height: 100vh;
-      padding: 24px 16px 50px;
-      text-align: center;
+      height: 100dvh; /* pakai dvh agar browser bar HP tidak potong */
+      display: flex;
+      flex-direction: column;
+      padding: 10px 14px 10px;
       position: relative;
       overflow: hidden;
       background:
         radial-gradient(circle at center, var(--main1), transparent 18%),
-        radial-gradient(circle at top, var(--main2), transparent 44%),
+        radial-gradient(circle at top,    var(--main2), transparent 44%),
         linear-gradient(180deg, #21001f, #520040, #140014);
-      transition: background 0.6s ease;
+      transition: background .5s ease;
     }
 
+    /* dots bg */
     .page::before {
       content: "";
-      position: absolute;
-      inset: 0;
+      position: absolute; inset: 0;
       background-image:
         radial-gradient(circle, rgba(255,255,255,.9) 1px, transparent 2px),
         radial-gradient(circle, var(--main3) 2px, transparent 4px);
       background-size: 42px 42px, 90px 90px;
-      opacity: .68;
+      opacity: .5;
       animation: bgMove 10s linear infinite;
       pointer-events: none;
     }
@@ -58,211 +59,203 @@
     }
 
     .light-lines {
-      position: absolute;
-      inset: 0;
-      background:
-        repeating-conic-gradient(
-          from 0deg,
-          rgba(255,255,255,.18) 0deg,
-          transparent 2deg,
-          transparent 10deg
-        );
-      mask-image: radial-gradient(circle at center, black 0%, transparent 58%);
-      opacity: .45;
-      animation: rotateLines 28s linear infinite;
+      position: absolute; inset: 0;
+      background: repeating-conic-gradient(
+        from 0deg, rgba(255,255,255,.15) 0deg,
+        transparent 2deg, transparent 10deg
+      );
+      mask-image: radial-gradient(circle at center, black 0%, transparent 60%);
+      opacity: .4;
+      animation: rotateLine 28s linear infinite;
       pointer-events: none;
     }
 
-    @keyframes rotateLines {
-      to { transform: rotate(360deg); }
-    }
+    @keyframes rotateLine { to { transform: rotate(360deg); } }
 
+    /* ── SEMUA KONTEN DI DALAM FLEX COLUMN ── */
     .content {
       position: relative;
       z-index: 5;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 7px;
       width: 100%;
-      max-width: 470px;
+      max-width: 430px;
       margin: 0 auto;
     }
 
+    /* ── JUDUL ── */
     h1 {
-      margin: 0 0 16px;
-      font-size: clamp(31px, 8.5vw, 45px);
+      font-size: clamp(20px, 5.5vw, 28px);
       font-weight: 900;
-      letter-spacing: 1px;
-      line-height: 1.12;
-      text-shadow:
-        0 0 12px rgba(255,255,255,.55),
-        0 0 28px var(--glow);
+      letter-spacing: .5px;
+      line-height: 1.1;
+      text-shadow: 0 0 10px rgba(255,255,255,.5), 0 0 24px var(--glow);
+      text-align: center;
     }
 
+    /* ── TABS ── */
     .tabs {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      margin-bottom: 18px;
+      gap: 6px;
+      width: 100%;
     }
 
     .tab {
       border: 1px solid rgba(255,255,255,.28);
       border-radius: 999px;
-      padding: 11px 6px;
+      padding: 8px 4px;
       color: white;
       background: rgba(255,255,255,.12);
       font-weight: 800;
-      font-size: 12px;
+      font-size: 11px;
       backdrop-filter: blur(8px);
       cursor: pointer;
-      transition: background .2s, transform .15s;
+      transition: background .2s, transform .1s;
     }
 
-    .tab:hover  { background: rgba(255,255,255,.22); }
-    .tab:active { transform: scale(.96); }
+    .tab:active { transform: scale(.95); }
 
     .tab.active {
       background: linear-gradient(135deg, var(--main1), var(--main2));
-      box-shadow: 0 0 22px var(--glow);
+      box-shadow: 0 0 16px var(--glow);
     }
 
-    /* VIDEO */
-    .video-card {
+    /* ── VIDEO TOGGLE ── */
+    .video-toggle {
       width: 100%;
-      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,.25);
+      border-radius: 12px;
+      padding: 7px 14px;
+      background: rgba(255,255,255,.1);
+      color: white;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      backdrop-filter: blur(6px);
+      text-align: center;
+      transition: background .2s;
+    }
+
+    .video-toggle:active { transform: scale(.97); }
+
+    .video-wrap {
+      width: 100%;
+      border-radius: 16px;
       overflow: hidden;
-      border: 3px solid rgba(255,255,255,.28);
-      box-shadow: 0 0 32px var(--glow);
-      background: rgba(0,0,0,.55);
-      margin-bottom: 34px;
-      transition: box-shadow .4s;
+      border: 2px solid rgba(255,255,255,.25);
+      box-shadow: 0 0 24px var(--glow);
+      display: none;
     }
 
-    .video-card iframe {
+    .video-wrap.open { display: block; }
+
+    .video-wrap iframe {
       width: 100%;
-      aspect-ratio: 16 / 9;
+      aspect-ratio: 16/9;
       display: block;
       border: none;
     }
 
-    /* PHOTO AREA */
+    /* ── FOTO AREA ── */
     .photo-area {
-      min-height: 255px;
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
+      width: 100%;
+      flex-shrink: 0;
     }
 
-    /* nav arrows */
     .photo-nav {
       position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
+      top: 50%; transform: translateY(-50%);
       background: rgba(255,255,255,.18);
-      border: none;
-      border-radius: 50%;
-      width: 36px;
-      height: 36px;
-      color: white;
-      font-size: 16px;
+      border: none; border-radius: 50%;
+      width: 32px; height: 32px;
+      color: white; font-size: 14px;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       backdrop-filter: blur(6px);
-      transition: background .2s, transform .15s;
+      transition: background .15s;
       z-index: 10;
     }
 
-    .photo-nav:hover  { background: rgba(255,255,255,.35); }
-    .photo-nav:active { transform: translateY(-50%) scale(.9); }
-    .photo-nav.prev   { left: 0; }
-    .photo-nav.next   { right: 0; }
+    .photo-nav:active { background: rgba(255,255,255,.4); transform: translateY(-50%) scale(.9); }
+    .photo-nav.prev { left: 2px; }
+    .photo-nav.next { right: 2px; }
 
     .member-card {
-      width: 190px;
-      height: 190px;
+      width: 148px; height: 148px;
       border-radius: 50%;
       display: none;
-      align-items: center;
-      justify-content: center;
+      align-items: center; justify-content: center;
       position: relative;
       background: rgba(255,255,255,.15);
       box-shadow:
-        0 0 0 4px rgba(255,255,255,.92),
-        0 0 0 9px rgba(255,255,255,.22),
-        0 0 42px var(--glow);
-      animation: popPhoto .7s ease forwards, pulsePhoto 2s infinite ease-in-out .8s;
+        0 0 0 3px rgba(255,255,255,.9),
+        0 0 0 7px rgba(255,255,255,.2),
+        0 0 36px var(--glow);
+      animation: popPhoto .4s ease forwards, pulsePhoto 2.2s infinite ease-in-out .5s;
     }
 
     .member-card.show { display: flex; }
 
     @keyframes popPhoto {
-      from { transform: scale(.25) rotate(-12deg); opacity: 0; }
-      to   { transform: scale(1) rotate(0deg);     opacity: 1; }
+      from { transform: scale(.3) rotate(-10deg); opacity:0; }
+      to   { transform: scale(1)  rotate(0deg);   opacity:1; }
     }
 
     @keyframes pulsePhoto {
-      0%, 100% { transform: scale(1);    }
-      50%       { transform: scale(1.04); }
+      0%,100% { transform: scale(1); }
+      50%      { transform: scale(1.04); }
     }
 
     .member-card::before {
-      content: "";
-      position: absolute;
-      inset: -20px;
+      content: ""; position: absolute; inset: -16px;
       border-radius: 50%;
-      border: 2px solid rgba(255,255,255,.28);
+      border: 2px solid rgba(255,255,255,.25);
       animation: spin 8s linear infinite;
     }
 
     .member-card::after {
-      content: "";
-      position: absolute;
-      inset: -36px;
+      content: ""; position: absolute; inset: -28px;
       border-radius: 50%;
-      border: 1px solid rgba(255,255,255,.18);
+      border: 1px solid rgba(255,255,255,.15);
       animation: spin 14s linear infinite reverse;
     }
 
     @keyframes spin { to { transform: rotate(360deg); } }
 
     .member-photo {
-      width: 155px;
-      height: 155px;
+      width: 118px; height: 118px;
       border-radius: 50%;
-      object-fit: cover;
-      object-position: top center;
-      border: 4px solid white;
+      object-fit: cover; object-position: top center;
+      border: 3px solid white;
       background: white;
-      position: relative;
-      z-index: 2;
-      transition: opacity .22s ease;
+      position: relative; z-index: 2;
     }
 
-    .member-photo.fading { opacity: 0; }
-
-    /* TEXT */
+    /* ── INFO ── */
     .team-name {
-      margin-top: 14px;
-      font-size: 25px;
-      font-weight: 900;
-      text-shadow: 0 0 18px rgba(0,0,0,.85);
+      font-size: 18px; font-weight: 900;
+      text-shadow: 0 0 14px rgba(0,0,0,.8);
+      text-align: center;
     }
 
     .counter {
-      margin-top: 6px;
-      color: rgba(255,255,255,.86);
-      font-size: 14px;
-      font-weight: bold;
+      color: rgba(255,255,255,.85);
+      font-size: 12px; font-weight: bold;
+      text-align: center;
     }
 
-    /* progress bar */
     .progress-bar {
-      width: 130px;
-      height: 4px;
+      width: 110px; height: 3px;
       background: rgba(255,255,255,.2);
       border-radius: 999px;
-      margin: 8px auto 0;
       overflow: hidden;
     }
 
@@ -270,44 +263,44 @@
       height: 100%;
       background: linear-gradient(90deg, var(--main1), var(--main2));
       border-radius: 999px;
-      transition: width .35s ease;
+      transition: width .3s ease;
     }
 
+    /* ── QUOTE ── */
     .quote {
-      margin: 22px auto 22px;
-      max-width: 420px;
-      font-size: clamp(20px, 5vw, 25px);
-      line-height: 1.35;
-      text-shadow: 0 0 14px rgba(0,0,0,.9);
-      transition: opacity .25s;
+      font-size: clamp(13px, 3.8vw, 16px);
+      line-height: 1.4;
+      text-shadow: 0 0 12px rgba(0,0,0,.9);
+      text-align: center;
+      max-width: 360px;
+      opacity: 1;
+      transition: opacity .2s;
     }
 
     .quote.fading { opacity: 0; }
 
-    /* MAIN BUTTON */
+    /* ── MAIN BUTTON ── */
     .main-btn {
       border: none;
       border-radius: 999px;
-      padding: 16px 28px;
-      min-width: 240px;
+      padding: 13px 24px;
+      width: 100%;
+      max-width: 300px;
       color: white;
-      font-size: 20px;
-      font-weight: 900;
+      font-size: 17px; font-weight: 900;
       background: linear-gradient(135deg, var(--main1), var(--main2));
-      box-shadow: 0 0 28px var(--glow), 0 12px 28px rgba(0,0,0,.35);
+      box-shadow: 0 0 24px var(--glow), 0 8px 20px rgba(0,0,0,.35);
       cursor: pointer;
-      transition: transform .15s, box-shadow .2s;
+      transition: transform .1s, box-shadow .15s;
+      flex-shrink: 0;
     }
 
-    .main-btn:hover  { transform: translateY(-2px); box-shadow: 0 0 40px var(--glow), 0 16px 32px rgba(0,0,0,.4); }
-    .main-btn:active { transform: scale(.96); }
+    .main-btn:active { transform: scale(.95); }
 
-    /* EFFECTS */
+    /* ── EFFECTS ── */
     .effect-item {
-      position: fixed;
-      pointer-events: none;
-      z-index: 99;
-      filter: drop-shadow(0 0 10px white);
+      position: fixed; pointer-events: none; z-index: 99;
+      filter: drop-shadow(0 0 8px white);
     }
 
     .love-effect    { animation: loveFloat   2.8s ease-out forwards; }
@@ -315,324 +308,327 @@
     .passion-effect { animation: passionFire 2.4s ease-out forwards; }
 
     @keyframes loveFloat {
-      0%   { opacity: 1; transform: translateY(0)     scale(.6)  rotate(0deg);  }
-      100% { opacity: 0; transform: translateY(-310px) scale(1.8) rotate(28deg); }
+      0%  { opacity:1; transform:translateY(0)     scale(.6)  rotate(0deg);  }
+      100%{ opacity:0; transform:translateY(-300px) scale(1.7) rotate(28deg); }
     }
 
     @keyframes dreamStar {
-      0%   { opacity: 0; transform: translateY(0)     translateX(0)   scale(.4)  rotate(0deg);   }
-      15%  { opacity: 1; }
-      100% { opacity: 0; transform: translateY(-260px) translateX(90px) scale(1.7) rotate(220deg); }
+      0% { opacity:0; transform:translateY(0) translateX(0) scale(.4) rotate(0deg); }
+      15%{ opacity:1; }
+      100%{ opacity:0; transform:translateY(-250px) translateX(80px) scale(1.6) rotate(220deg); }
     }
 
     @keyframes passionFire {
-      0%   { opacity: 1; transform: translateY(0)     scale(.5)  rotate(0deg);  }
-      45%  { opacity: 1; transform: translateY(-120px) scale(1.3) rotate(-12deg); }
-      100% { opacity: 0; transform: translateY(-280px) scale(.4)  rotate(30deg); }
+      0% { opacity:1; transform:translateY(0)     scale(.5)  rotate(0deg);  }
+      45%{ opacity:1; transform:translateY(-110px) scale(1.2) rotate(-12deg); }
+      100%{ opacity:0; transform:translateY(-270px) scale(.4)  rotate(30deg); }
     }
 
     .flash {
-      position: fixed;
-      inset: 0;
-      opacity: 0;
-      pointer-events: none;
-      z-index: 80;
-      background: radial-gradient(circle, rgba(255,255,255,.72), transparent 58%);
+      position: fixed; inset:0;
+      opacity:0; pointer-events:none; z-index:80;
+      background: radial-gradient(circle, rgba(255,255,255,.7), transparent 58%);
     }
 
-    .flash.show { animation: flashEffect .55s ease; }
+    .flash.show { animation: flashFX .4s ease; }
 
-    @keyframes flashEffect {
-      0%   { opacity: 0; }
-      40%  { opacity: 1; }
-      100% { opacity: 0; }
+    @keyframes flashFX {
+      0% { opacity:0; } 35%{ opacity:1; } 100%{ opacity:0; }
     }
 
     .toast {
       position: fixed;
-      left: 50%;
-      bottom: 22px;
+      left:50%; bottom:16px;
       transform: translateX(-50%) translateY(30px);
-      z-index: 120;
-      padding: 13px 18px;
+      z-index:120;
+      padding: 11px 16px;
       border-radius: 999px;
-      background: rgba(0,0,0,.7);
-      color: white;
-      font-weight: 800;
-      opacity: 0;
-      box-shadow: 0 0 22px var(--glow);
+      background: rgba(0,0,0,.72);
+      color:white; font-weight:800; font-size:14px;
+      opacity:0;
+      box-shadow: 0 0 18px var(--glow);
       backdrop-filter: blur(10px);
-      transition: .35s ease;
-      width: calc(100% - 32px);
-      max-width: 390px;
-      text-align: center;
+      transition: .3s ease;
+      width: calc(100% - 32px); max-width:360px;
+      text-align:center;
     }
 
-    .toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
+    .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
 
-    @media (max-width: 380px) {
-      h1 { font-size: 29px; }
-      .tab { font-size: 12px; padding: 9px 4px; }
-      .member-card { width: 175px; height: 175px; }
-      .member-photo { width: 142px; height: 142px; }
-      .member-card::before { inset: -18px; }
-      .member-card::after  { inset: -32px; }
-      .photo-area { min-height: 235px; }
+    /* ── safe area untuk HP notch / gesture bar ── */
+    @supports (padding-bottom: env(safe-area-inset-bottom)) {
+      .page { padding-bottom: calc(10px + env(safe-area-inset-bottom)); }
     }
   </style>
 </head>
-
 <body>
 
-  <main class="page">
-    <div class="light-lines"></div>
+<main class="page">
+  <div class="light-lines"></div>
 
-    <section class="content">
-      <h1 id="title">TEAM LOVE JKT48</h1>
+  <div class="content">
 
-      <div class="tabs">
-        <button class="tab" id="tab-love"    onclick="changeTeam('love')">💖 Love</button>
-        <button class="tab" id="tab-dream"   onclick="changeTeam('dream')">🌟 Dream</button>
-        <button class="tab" id="tab-passion" onclick="changeTeam('passion')">🔥 Passion</button>
+    <!-- JUDUL -->
+    <h1 id="title">TEAM LOVE JKT48</h1>
+
+    <!-- TABS -->
+    <div class="tabs">
+      <button class="tab" id="tab-love"    onclick="changeTeam('love')">💖 Love</button>
+      <button class="tab" id="tab-dream"   onclick="changeTeam('dream')">🌟 Dream</button>
+      <button class="tab" id="tab-passion" onclick="changeTeam('passion')">🔥 Passion</button>
+    </div>
+
+    <!-- VIDEO TOGGLE -->
+    <button class="video-toggle" id="videoToggle" onclick="toggleVideo()">
+      ▶ Tonton Video MV
+    </button>
+    <div class="video-wrap" id="videoWrap">
+      <iframe id="youtubeFrame" src="" title="JKT48 Video"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen></iframe>
+    </div>
+
+    <!-- FOTO -->
+    <div class="photo-area" id="photoArea">
+      <button class="photo-nav prev" onclick="prevPhoto()" aria-label="Sebelumnya">&#8592;</button>
+      <div class="member-card show" id="memberCard">
+        <img id="memberPhoto" class="member-photo" src="love1.jpg" alt="Foto Team" />
       </div>
+      <button class="photo-nav next" onclick="nextPhoto()" aria-label="Selanjutnya">&#8594;</button>
+    </div>
 
-      <div class="video-card">
-        <iframe
-          id="youtubeFrame"
-          src=""
-          title="JKT48 Video"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen>
-        </iframe>
-      </div>
+    <!-- INFO FOTO -->
+    <div class="team-name" id="teamName">Team Love 💖</div>
+    <div class="counter"   id="counter">Foto 1 dari 15</div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill" style="width:6.67%"></div>
+    </div>
 
-      <div class="photo-area" id="photoArea">
-        <button class="photo-nav prev" onclick="prevPhoto()" aria-label="Foto sebelumnya">&#8592;</button>
+    <!-- QUOTE -->
+    <p class="quote" id="quote">Saat oshi tersenyum, dunia terasa lebih terang.</p>
 
-        <div class="member-card show" id="memberCard">
-          <img id="memberPhoto" class="member-photo" src="love1.jpg" alt="Foto Team" />
-        </div>
+    <!-- TOMBOL UTAMA -->
+    <button class="main-btn" onclick="nyalakanLightstick()">⚡ Nyalakan Lightstick</button>
 
-        <button class="photo-nav next" onclick="nextPhoto()" aria-label="Foto selanjutnya">&#8594;</button>
-      </div>
+  </div>
+</main>
 
-      <div class="team-name" id="teamName">Team Love 💖</div>
-      <div class="counter"   id="counter">Foto 1 dari 15</div>
+<div class="flash" id="flash"></div>
+<div class="toast" id="toast"></div>
 
-      <div class="progress-bar">
-        <div class="progress-fill" id="progressFill" style="width:6.67%"></div>
-      </div>
+<script>
+  const teams = {
+    love: {
+      title: "TEAM LOVE JKT48", name: "Team Love", emoji: "💖",
+      youtube: "9iWB3ZuXOz8",
+      color1: "#ff7eb6", color2: "#ff2d55", color3: "#ffd1e6",
+      glow: "rgba(255,79,163,0.72)",
+      quote: "Saat oshi tersenyum, dunia terasa lebih terang.",
+      buttonText: "Team Love menyala 💖", animationType: "love",
+      photos: ["love1.jpg","love2.jpg","love3.jpg","love4.jpg","love5.jpg",
+               "love6.jpg","love7.jpg","love8.jpg","love9.jpg","love10.jpg",
+               "love11.jpg","love12.jpg","love13.jpg","love14.jpg","love15.jpg"]
+    },
+    dream: {
+      title: "TEAM DREAM JKT48", name: "Team Dream", emoji: "🌟",
+      youtube: "n3EpgnAqlvE",
+      color1: "#00c8d7", color2: "#ffd166", color3: "#dffcff",
+      glow: "rgba(0,200,215,0.75)",
+      quote: "Mimpi bersinar seperti bintang, pelan-pelan tapi pasti sampai.",
+      buttonText: "Team Dream menyala 🌟", animationType: "dream",
+      photos: ["dream1.jpg","dream2.jpg","dream3.jpg","dream4.jpg","dream5.jpg",
+               "dream6.jpg","dream7.jpg","dream8.jpg","dream9.jpg","dream10.jpg",
+               "dream11.jpg","dream12.jpg","dream13.jpg","dream14.jpg"]
+    },
+    passion: {
+      title: "TEAM PASSION JKT48", name: "Team Passion", emoji: "🔥",
+      youtube: "QtdsUJxiwNM",
+      color1: "#ff6a00", color2: "#d62828", color3: "#ffd166",
+      glow: "rgba(255,106,0,0.75)",
+      quote: "Semangat menyala, langkah kecil pun tetap berarti.",
+      buttonText: "Team Passion menyala 🔥", animationType: "passion",
+      photos: ["passion1.jpg","passion2.jpg","passion3.jpg","passion4.jpg","passion5.jpg",
+               "passion6.jpg","passion7.jpg","passion8.jpg","passion9.jpg","passion10.jpg",
+               "passion11.jpg","passion12.jpg","passion13.jpg","passion14.jpg","passion15.jpg"]
+    }
+  };
 
-      <p class="quote" id="quote">
-        Saat oshi tersenyum, dunia terasa lebih terang.
-      </p>
+  let currentTeam = "love";
+  const photoIndex = { love:0, dream:0, passion:0 };
+  let videoOpen = false;
 
-      <button class="main-btn" onclick="nyalakanLightstick()">
-        Nyalakan Lightstick
-      </button>
-    </section>
-  </main>
+  /* ── preload foto berikutnya biar INSTAN ── */
+  function preloadNext(team, idx) {
+    const photos = teams[team].photos;
+    const next = ((idx + 1) % photos.length + photos.length) % photos.length;
+    const img = new Image();
+    img.src = photos[next];
+  }
 
-  <div class="flash" id="flash"></div>
-  <div class="toast" id="toast">Lightstick menyala!</div>
+  /* ── SET FOTO — LANGSUNG TANPA DELAY ── */
+  function setPhoto(team, idx) {
+    const photos  = teams[team].photos;
+    const safeIdx = ((idx % photos.length) + photos.length) % photos.length;
+    photoIndex[team] = safeIdx;
 
-  <script>
-    const teams = {
-      love: {
-        title: "TEAM LOVE JKT48",
-        name: "Team Love", emoji: "💖",
-        youtube: "9iWB3ZuXOz8",
-        color1: "#ff7eb6", color2: "#ff2d55", color3: "#ffd1e6",
-        glow: "rgba(255, 79, 163, 0.72)",
-        quote: "Saat oshi tersenyum, dunia terasa lebih terang.",
-        buttonText: "Team Love menyala 💖",
-        animationType: "love",
-        photos: ["love1.jpg","love2.jpg","love3.jpg","love4.jpg","love5.jpg",
-                 "love6.jpg","love7.jpg","love8.jpg","love9.jpg","love10.jpg",
-                 "love11.jpg","love12.jpg","love13.jpg","love14.jpg","love15.jpg"]
-      },
-      dream: {
-        title: "TEAM DREAM JKT48",
-        name: "Team Dream", emoji: "🌟",
-        youtube: "n3EpgnAqlvE",
-        color1: "#00c8d7", color2: "#ffd166", color3: "#dffcff",
-        glow: "rgba(0, 200, 215, 0.75)",
-        quote: "Mimpi bersinar seperti bintang, pelan-pelan tapi pasti sampai.",
-        buttonText: "Team Dream menyala 🌟",
-        animationType: "dream",
-        photos: ["dream1.jpg","dream2.jpg","dream3.jpg","dream4.jpg","dream5.jpg",
-                 "dream6.jpg","dream7.jpg","dream8.jpg","dream9.jpg","dream10.jpg",
-                 "dream11.jpg","dream12.jpg","dream13.jpg","dream14.jpg"]
-      },
-      passion: {
-        title: "TEAM PASSION JKT48",
-        name: "Team Passion", emoji: "🔥",
-        youtube: "QtdsUJxiwNM",
-        color1: "#ff6a00", color2: "#d62828", color3: "#ffd166",
-        glow: "rgba(255, 106, 0, 0.75)",
-        quote: "Semangat menyala, langkah kecil pun tetap berarti.",
-        buttonText: "Team Passion menyala 🔥",
-        animationType: "passion",
-        photos: ["passion1.jpg","passion2.jpg","passion3.jpg","passion4.jpg","passion5.jpg",
-                 "passion6.jpg","passion7.jpg","passion8.jpg","passion9.jpg","passion10.jpg",
-                 "passion11.jpg","passion12.jpg","passion13.jpg","passion14.jpg","passion15.jpg"]
-      }
-    };
+    // langsung ganti — tidak ada setTimeout
+    const imgEl = document.getElementById("memberPhoto");
+    imgEl.src = photos[safeIdx];
 
-    let currentTeam = "love";
-    const photoIndex = { love: 0, dream: 0, passion: 0 };
+    // restart pop animation
+    const card = document.getElementById("memberCard");
+    card.classList.remove("show");
+    void card.offsetWidth;        // reflow paksa
+    card.classList.add("show");
 
-    const titleEl      = document.getElementById("title");
-    const youtubeFrame = document.getElementById("youtubeFrame");
-    const memberPhoto  = document.getElementById("memberPhoto");
-    const memberCard   = document.getElementById("memberCard");
-    const teamNameEl   = document.getElementById("teamName");
-    const quoteEl      = document.getElementById("quote");
-    const flashEl      = document.getElementById("flash");
-    const toastEl      = document.getElementById("toast");
-    const counterEl    = document.getElementById("counter");
-    const progressFill = document.getElementById("progressFill");
+    document.getElementById("counter").textContent =
+      "Foto " + (safeIdx + 1) + " dari " + photos.length;
+    document.getElementById("progressFill").style.width =
+      ((safeIdx + 1) / photos.length * 100).toFixed(2) + "%";
 
-    /* ── Ganti foto dengan fade ── */
-    function setPhoto(team, idx) {
-      const photos  = teams[team].photos;
-      const safeIdx = ((idx % photos.length) + photos.length) % photos.length;
-      photoIndex[team] = safeIdx;
+    // preload foto berikutnya di background
+    preloadNext(team, safeIdx);
+  }
 
-      memberPhoto.classList.add("fading");
-      setTimeout(() => {
-        memberPhoto.src = photos[safeIdx];
-        memberPhoto.classList.remove("fading");
+  function prevPhoto() { setPhoto(currentTeam, photoIndex[currentTeam] - 1); }
+  function nextPhoto() { setPhoto(currentTeam, photoIndex[currentTeam] + 1); }
 
-        memberCard.classList.remove("show");
-        void memberCard.offsetWidth;
-        memberCard.classList.add("show");
+  /* ── Swipe ── */
+  let txStart = null;
+  document.getElementById("photoArea").addEventListener("touchstart",
+    e => { txStart = e.touches[0].clientX; }, { passive: true });
+  document.getElementById("photoArea").addEventListener("touchend", e => {
+    if (txStart === null) return;
+    const dx = e.changedTouches[0].clientX - txStart;
+    if (Math.abs(dx) > 35) dx < 0 ? nextPhoto() : prevPhoto();
+    txStart = null;
+  });
 
-        counterEl.innerText = "Foto " + (safeIdx + 1) + " dari " + photos.length;
-        progressFill.style.width = ((safeIdx + 1) / photos.length * 100).toFixed(2) + "%";
-      }, 200);
+  /* ── VIDEO TOGGLE ── */
+  function toggleVideo() {
+    videoOpen = !videoOpen;
+    const wrap   = document.getElementById("videoWrap");
+    const toggle = document.getElementById("videoToggle");
+    const frame  = document.getElementById("youtubeFrame");
+    const team   = teams[currentTeam];
+
+    wrap.classList.toggle("open", videoOpen);
+    toggle.textContent = videoOpen ? "✕ Tutup Video" : "▶ Tonton Video MV";
+
+    if (videoOpen) {
+      frame.src = "https://www.youtube.com/embed/" + team.youtube + "?rel=0&modestbranding=1&autoplay=1";
+    } else {
+      frame.src = "";
+    }
+  }
+
+  /* ── GANTI TEAM ── */
+  function changeTeam(teamKey) {
+    currentTeam = teamKey;
+    const team  = teams[teamKey];
+
+    document.documentElement.style.setProperty("--main1", team.color1);
+    document.documentElement.style.setProperty("--main2", team.color2);
+    document.documentElement.style.setProperty("--main3", team.color3);
+    document.documentElement.style.setProperty("--glow",  team.glow);
+
+    document.getElementById("title").textContent    = team.title;
+    document.getElementById("teamName").textContent = team.name + " " + team.emoji;
+
+    const q = document.getElementById("quote");
+    q.classList.add("fading");
+    setTimeout(() => { q.textContent = team.quote; q.classList.remove("fading"); }, 180);
+
+    // tutup video jika terbuka, ganti src
+    if (videoOpen) {
+      document.getElementById("youtubeFrame").src =
+        "https://www.youtube.com/embed/" + team.youtube + "?rel=0&modestbranding=1&autoplay=1";
     }
 
-    function prevPhoto() { setPhoto(currentTeam, photoIndex[currentTeam] - 1); }
-    function nextPhoto() { setPhoto(currentTeam, photoIndex[currentTeam] + 1); }
+    // reset foto ke awal
+    photoIndex[teamKey] = 0;
+    document.getElementById("memberPhoto").src = team.photos[0];
+    const card = document.getElementById("memberCard");
+    card.classList.remove("show"); void card.offsetWidth; card.classList.add("show");
 
-    /* ── Swipe untuk mobile ── */
-    let touchStartX = null;
-    document.getElementById("photoArea").addEventListener("touchstart", e => {
-      touchStartX = e.touches[0].clientX;
-    }, { passive: true });
-    document.getElementById("photoArea").addEventListener("touchend", e => {
-      if (touchStartX === null) return;
-      const dx = e.changedTouches[0].clientX - touchStartX;
-      if (Math.abs(dx) > 40) dx < 0 ? nextPhoto() : prevPhoto();
-      touchStartX = null;
+    document.getElementById("counter").textContent = "Foto 1 dari " + team.photos.length;
+    document.getElementById("progressFill").style.width =
+      (1 / team.photos.length * 100).toFixed(2) + "%";
+
+    document.querySelectorAll(".tab").forEach(b => b.classList.remove("active"));
+    document.getElementById("tab-" + teamKey).classList.add("active");
+
+    // preload foto pertama
+    preloadNext(teamKey, 0);
+  }
+
+  /* ── LIGHTSTICK — INSTAN ── */
+  function nyalakanLightstick() {
+    const team = teams[currentTeam];
+
+    // ganti foto LANGSUNG (tidak ada delay sama sekali)
+    setPhoto(currentTeam, photoIndex[currentTeam] + 1);
+
+    // flash
+    const fl = document.getElementById("flash");
+    fl.classList.remove("show"); void fl.offsetWidth; fl.classList.add("show");
+
+    showToast(team.buttonText);
+
+    if (team.animationType === "love")    loveAnim();
+    if (team.animationType === "dream")   dreamAnim();
+    if (team.animationType === "passion") passionAnim();
+  }
+
+  /* ── ANIMASI EMOJI ── */
+  function loveAnim() {
+    const icons = ["💖","💗","💕","💞","❤️"];
+    for (let i=0;i<35;i++) setTimeout(()=>spawnFX(
+      icons[i%icons.length],"love-effect",70,20,34),i*40);
+  }
+
+  function dreamAnim() {
+    const icons = ["⭐","🌟","✨","💫","🌙"];
+    for (let i=0;i<40;i++) setTimeout(()=>spawnFX(
+      icons[i%icons.length],"dream-effect",Math.random()*200+70,18,32),i*50);
+  }
+
+  function passionAnim() {
+    const icons = ["🔥","⚡","✨","🟠","💥"];
+    for (let i=0;i<42;i++) setTimeout(()=>spawnFX(
+      icons[i%icons.length],"passion-effect",60,20,36),i*35);
+  }
+
+  function spawnFX(text, cls, bottom, minSz, maxSz) {
+    const el = document.createElement("div");
+    el.className = "effect-item " + cls;
+    el.textContent = text;
+    el.style.left   = Math.random() * window.innerWidth + "px";
+    el.style.bottom = bottom + "px";
+    el.style.fontSize = (Math.random()*(maxSz-minSz)+minSz) + "px";
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(), 3200);
+  }
+
+  function showToast(text) {
+    const t = document.getElementById("toast");
+    t.textContent = text;
+    t.classList.add("show");
+    setTimeout(()=>t.classList.remove("show"), 1800);
+  }
+
+  /* ── INIT: preload semua foto pertama tiap team ── */
+  function preloadAll() {
+    Object.keys(teams).forEach(key => {
+      teams[key].photos.forEach(src => {
+        const img = new Image(); img.src = src;
+      });
     });
+  }
 
-    /* ── Ganti team ── */
-    function changeTeam(teamKey) {
-      currentTeam = teamKey;
-      const team  = teams[teamKey];
-
-      document.documentElement.style.setProperty("--main1", team.color1);
-      document.documentElement.style.setProperty("--main2", team.color2);
-      document.documentElement.style.setProperty("--main3", team.color3);
-      document.documentElement.style.setProperty("--glow",  team.glow);
-
-      titleEl.innerText    = team.title;
-      teamNameEl.innerText = team.name + " " + team.emoji;
-
-      quoteEl.classList.add("fading");
-      setTimeout(() => {
-        quoteEl.innerText = team.quote;
-        quoteEl.classList.remove("fading");
-      }, 200);
-
-      youtubeFrame.src = "https://www.youtube.com/embed/" + team.youtube + "?rel=0&modestbranding=1";
-
-      photoIndex[teamKey] = 0;
-      memberPhoto.src = team.photos[0];
-      memberCard.classList.remove("show");
-      void memberCard.offsetWidth;
-      memberCard.classList.add("show");
-
-      counterEl.innerText    = "Foto 1 dari " + team.photos.length;
-      progressFill.style.width = (1 / team.photos.length * 100).toFixed(2) + "%";
-
-      document.querySelectorAll(".tab").forEach(btn => btn.classList.remove("active"));
-      document.getElementById("tab-" + teamKey).classList.add("active");
-    }
-
-    /* ── Tombol utama: next foto + efek ── */
-    function nyalakanLightstick() {
-      const team = teams[currentTeam];
-
-      setPhoto(currentTeam, photoIndex[currentTeam] + 1);
-
-      flashEl.classList.remove("show");
-      void flashEl.offsetWidth;
-      flashEl.classList.add("show");
-
-      showToast(team.buttonText);
-
-      if (team.animationType === "love")    loveAnimation();
-      if (team.animationType === "dream")   dreamAnimation();
-      if (team.animationType === "passion") passionAnimation();
-    }
-
-    /* ── Animasi emoji ── */
-    function loveAnimation() {
-      const icons = ["💖","💗","💕","💞","❤️"];
-      for (let i = 0; i < 38; i++) {
-        setTimeout(() => createEffect({
-          text: icons[Math.floor(Math.random()*icons.length)],
-          className: "love-effect", bottom: 70, sizeMin: 20, sizeMax: 35
-        }), i * 45);
-      }
-    }
-
-    function dreamAnimation() {
-      const icons = ["⭐","🌟","✨","💫","🌙"];
-      for (let i = 0; i < 44; i++) {
-        setTimeout(() => createEffect({
-          text: icons[Math.floor(Math.random()*icons.length)],
-          className: "dream-effect", bottom: Math.random()*230+70, sizeMin: 18, sizeMax: 33
-        }), i * 55);
-      }
-    }
-
-    function passionAnimation() {
-      const icons = ["🔥","⚡","✨","🟠","💥"];
-      for (let i = 0; i < 46; i++) {
-        setTimeout(() => createEffect({
-          text: icons[Math.floor(Math.random()*icons.length)],
-          className: "passion-effect", bottom: 60, sizeMin: 20, sizeMax: 37
-        }), i * 38);
-      }
-    }
-
-    function createEffect(s) {
-      const item = document.createElement("div");
-      item.className = "effect-item " + s.className;
-      item.textContent = s.text;
-      item.style.left = Math.random() * window.innerWidth + "px";
-      item.style.bottom = s.bottom + "px";
-      item.style.fontSize = (Math.random() * (s.sizeMax - s.sizeMin) + s.sizeMin) + "px";
-      document.body.appendChild(item);
-      setTimeout(() => item.remove(), 3300);
-    }
-
-    function showToast(text) {
-      toastEl.innerText = text;
-      toastEl.classList.add("show");
-      setTimeout(() => toastEl.classList.remove("show"), 1800);
-    }
-
-    // init
-    changeTeam("love");
-  </script>
-
+  changeTeam("love");
+  // preload di background setelah halaman siap
+  window.addEventListener("load", preloadAll);
+</script>
 </body>
 </html>
